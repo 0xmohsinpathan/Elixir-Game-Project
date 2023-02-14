@@ -4,7 +4,7 @@ defmodule Games.Guessing_Game do
     IO.puts("Welcome to the guessing game!")
     guess = IO.gets("Enter your guess: ")
     IO.puts("You guessed #{guess}")
-    trimmed_guess = guess |> String.trim() |> String.to_integer() |> IO.inspect()
+    {trimmed_guess,_tail} = guess |> Integer.parse() |> IO.inspect()
 
     if answer == trimmed_guess do
       IO.puts("You win!")
