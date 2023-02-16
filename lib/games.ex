@@ -13,6 +13,6 @@ defmodule Games do
 
   """
   def hello do
-    :world
+    Enum
   end
 end
