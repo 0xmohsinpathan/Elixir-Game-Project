@@ -1,18 +1,12 @@
 defmodule Games do
   @moduledoc """
-  Documentation for Games.
+  Documentation for `Games`.
   """
 
   @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Games.hello()
-      :world
-
+  Starts the Games CLI. Used by Escript.
   """
-  def hello do
-    Enum
+  def main(_args) do
+    Games.Menu.display()
   end
 end

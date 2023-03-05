@@ -1,18 +1,35 @@
 defmodule Games.RockPaperScissors do
+  @moduledoc """
+  Documentation for Games.RockPaperScissors
+  Play rock paper scissors against a randomly generated AI opponent.
+  """
+
+  @doc """
+
+  Prompt the user to input either rock, paper, or scissors.
+
+  ```elixir
+  Games.RockPaperScissors.play()
+  ```
+  """
   def play do
-    IO.puts("Choose rock paper or scissors!")
-    ai_choice = Enum.random([:rock,:paper,:scissors]) |> IO.inspect()
-    player_choice= IO.gets("Player 1: ") |> String.trim() |> String.to_atom() |>IO.inspect()
-    # {player_1, _rest} = IO.gets{"Payer 1: "} |> Integer.parse() |> String.to_atom()
-   # trimmed_guess = String.trim(guess) |> String.to_integer() |> IO.inspect()
+    IO.puts("Choose Rock Paper or Scissors!")
+    ai_choice = Enum.random([:rock, :paper, :scissors])
+    player_choice = IO.gets(["rock/paper/scissors: "]) |> String.trim() |> String.to_atom()
 
- case {player_choice, ai_choice} do
-   {_same, _same} -> "Draw"
-  {:rock, :scissors} -> "Player 1 Wins!"
-  {:paper, :rock} -> "Player 1 Wins!"
-  {:scissors, :paper} -> "Player 1 Wins!"
-  _ -> "AI Wins!"
+    cond do
+      ai_choice == player_choice -> IO.puts("Draw")
+      beats?(ai_choice, player_choice) -> IO.puts("AI WIN")
+      beats?(player_choice, ai_choice) -> IO.puts("You WIN")
+      true -> raise(" your input is invalid. Please write in a correct way: rock/paper/scissors")
+    end
 
+    if player_choice == ai_choice do
+      play()
+    end
   end
+
+  defp beats?(player1, player2) do
+    {player1, player2} in [{:rock, :scissors}, {:scissors, :paper}, {:paper, :rock}]
   end
 end
