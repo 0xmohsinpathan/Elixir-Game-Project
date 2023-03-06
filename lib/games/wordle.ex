@@ -48,5 +48,10 @@ defmodule Games.Wordle do
     ["tests", "heros", "hello", "error"] |> Enum.random()
   end
 
-  
+  defp pair_list(answer_guesses, guess) do
+    list_answer = String.graphemes(answer_guesses)
+    list_guess = String.graphemes(guess)
+
+    
+  end
 end
