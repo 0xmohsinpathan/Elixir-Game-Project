@@ -22,3 +22,5 @@ erl_crash.dump
 # Ignore package tarball (built via "mix hex.build").
 games-*.tar
 
+# Also ignore it generates a notes, let's ignore it too.
+/.vscode/
