@@ -23,4 +23,4 @@ erl_crash.dump
 games-*.tar
 
 # Also ignore it generates a notes, let's ignore it too.
-notes.txt
+/.vscode/
