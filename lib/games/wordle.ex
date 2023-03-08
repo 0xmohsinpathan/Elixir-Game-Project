@@ -45,13 +45,13 @@ defmodule Games.Wordle do
   end
 
   defp answer_guesses() do
-    ["tests", "heros", "hello", "error"] |> Enum.random()
+    ["Apple", "Tiger", "Grape", "House", "Plant", "River", "Party", "Earth", "Ocean", "Bread", "Happy",
+ "Music", "Child", "Watch", "Beach", "Smile", "Angel", "Dream", "Light", "Water", "Lemon", "Chair",
+ "Sleep", "Pizza", "Dance", "Shoes", "Heart", "Paper", "Money", "Honey"] |> Enum.random()
   end
 
   defp pair_list(answer_guesses, guess) do
     list_answer = String.graphemes(answer_guesses)
     list_guess = String.graphemes(guess)
-
-    
   end
 end
