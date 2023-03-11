@@ -1,6 +1,4 @@
 defmodule Games.Wordle do
-  use GenServer
-  defstruct [:Secret_Word, :Guesses, :Attends]
 
   @moduledoc """
   Documentation for Games.Wordle
@@ -12,20 +10,7 @@ defmodule Games.Wordle do
   * yellow: letter is in the answer but in the wrong position
   * grey: letter is not in the answer
   """
-
   # TODO complete my wordle project
-
-  def start_link(_opts) do
-    GenServer.start_link(__MODULE__, %__MODULE__{
-      Secret_Word: answer_guesses(),
-      Guesses: [],
-      Attends: 6
-    })
-  end
-
-  def guessing_letter(guess_pid, letter) do
-    GenServer.call(guess_pid, {:guesses, letter})
-  end
 
   # @doc """
 
@@ -37,21 +22,45 @@ defmodule Games.Wordle do
   # """
 
   # Client
-  def init(state) do
-    {:ok, state}
-  end
 
-  def handle_call({:guesses, letter}, _from, state) do
-  end
+
+
+
+  
 
   defp answer_guesses() do
-    ["Apple", "Tiger", "Grape", "House", "Plant", "River", "Party", "Earth", "Ocean", "Bread", "Happy",
- "Music", "Child", "Watch", "Beach", "Smile", "Angel", "Dream", "Light", "Water", "Lemon", "Chair",
- "Sleep", "Pizza", "Dance", "Shoes", "Heart", "Paper", "Money", "Honey"] |> Enum.random()
-  end
-
-  defp pair_list(answer_guesses, guess) do
-    list_answer = String.graphemes(answer_guesses)
-    list_guess = String.graphemes(guess)
+    [
+      "Apple",
+      "Tiger",
+      "Grape",
+      "House",
+      "Plant",
+      "River",
+      "Party",
+      "Earth",
+      "Ocean",
+      "Bread",
+      "Happy",
+      "Music",
+      "Child",
+      "Watch",
+      "Beach",
+      "Smile",
+      "Angel",
+      "Dream",
+      "Light",
+      "Water",
+      "Lemon",
+      "Chair",
+      "Sleep",
+      "Pizza",
+      "Dance",
+      "Shoes",
+      "Heart",
+      "Paper",
+      "Money",
+      "Honey"
+    ]
+    |> Enum.random()
   end
 end
