@@ -21,8 +21,20 @@ defmodule Games.Wordle do
   # ```
   # """
 
-  # def play(guess_word) do
-  # end
+  def play(answer \\ random_AI(), attempt \\ 0)
+  def play(answer, 6), do: IO.puts("Wrong! The answer was #{answer}")
+  def play(answer, attempt) do
+    guess = IO.gets("Please Enter Five Letter Words: ") |> String.trim() |> String.downcase()
+    answer = String.downcase(answer)
+
+    if guess == answer do
+      IO.puts("WOW! You Guess Right")
+    else
+       feedback_list = feedback(answer, guess)
+      IO.puts(inspect(feedback_list))
+      play(answer, attempt + 1)
+    end
+  end
 
   def feedback(guess_word, answer_word) do
     zip_list = zip_list(guess_word, answer_word) |> Enum.unzip()
@@ -34,13 +46,10 @@ defmodule Games.Wordle do
   end
 
   defp check_green({guess_list, answer_list}) do
-  Enum.zip(guess_list, answer_list)
-    |> Enum.map(fn
-      {char, char} -> {:green, nil}
-      pair -> pair
-    end)
+    for {guess_char, answer_char} <- Enum.zip(guess_list, answer_list) do
+      if(guess_char == answer_char, do: {:green, nil}, else: {guess_char, answer_char})
+    end
     |> Enum.unzip()
-    |> IO.inspect()
   end
 
   defp check_yellow({guess_list, answer_list}) do
@@ -48,20 +57,24 @@ defmodule Games.Wordle do
       answer_index = Enum.find_index(answer_list, fn answer_char -> answer_char == guess_char end)
 
       if answer_index do
-        {result ++ [:yellow], List.replace_at(answer_list, answer_index, nil)} |> IO.inspect()
+        {result ++ [:yellow], List.replace_at(answer_list, answer_index, nil)}
       else
-        {result ++ [guess_char], answer_list} |> IO.inspect()
+        {result ++ [guess_char], answer_list}
       end
     end)
   end
 
   defp check_grey({guess_list, answer_list}) do
-    Enum.zip(guess_list, answer_list)
-    |> Enum.map(fn
-      {:green, _answer_char} -> {:green, nil}
-      {:yellow, _answer_char} -> {:yellow, nil}
-      _ -> {:grey, nil}
-    end)|> Enum.unzip()
+    {result, _} =
+      Enum.zip(guess_list, answer_list)
+      |> Enum.map(fn
+        {:green, _answer_char} -> {:green, nil}
+        {:yellow, _answer_char} -> {:yellow, nil}
+        _ -> {:grey, nil}
+      end)
+      |> Enum.unzip()
+
+    result
   end
 
   defp zip_list(guess_word, answer_word) do
@@ -70,38 +83,38 @@ defmodule Games.Wordle do
     Enum.zip(list_answer_char, list_guess_char)
   end
 
-  defp answer_guesses do
+  defp random_AI do
     [
-      "Apple",
-      "Tiger",
-      "Grape",
-      "House",
-      "Plant",
-      "River",
-      "Party",
-      "Earth",
-      "Ocean",
-      "Bread",
-      "Happy",
-      "Music",
-      "Child",
-      "Watch",
-      "Beach",
-      "Smile",
-      "Angel",
-      "Dream",
+      # "Apple",
+      # "Tiger",
+      # "Grape",
+      # "House",
+      # "Plant",
+      # "River",
+      # "Party",
+      # "Earth",
+      # "Ocean",
+      # "Bread",
+      # "Happy",
+      # "Music",
+      # "Child",
+      # "Watch",
+      # "Beach",
+      # "Smile",
+      # "Angel",
+      # "Dream",
       "Light",
-      "Water",
-      "Lemon",
-      "Chair",
-      "Sleep",
-      "Pizza",
-      "Dance",
-      "Shoes",
-      "Heart",
-      "Paper",
-      "Money",
-      "Honey"
+      # "Water",
+      # "Lemon",
+      # "Chair",
+      # "Sleep",
+      # "Pizza",
+      # "Dance",
+      # "Shoes",
+      # "Heart",
+      # "Paper",
+      # "Money",
+      # "Honey"
     ]
     |> Enum.random()
   end
