@@ -15,9 +15,18 @@ defmodule Games.Menu do
     {choice, _} = IO.gets("Select: ") |> Integer.parse()
 
     case choice do
-       1 -> Games.Guessing_Game.play()
-       2 -> Games.RockPaperScissors.play()
-      #  3 -> Games.Wordle.play()
+      1 -> Games.Guessing_Game.play()
+      2 -> Games.RockPaperScissors.play()
+      3 -> Games.Wordle.play()
+    end
+
+    user_opinion =
+      IO.gets("Do you want to try other Games [y/n]:") |> String.trim() |> String.downcase()
+
+    if user_opinion == "y" do
+      display()
+    else
+      IO.puts("Bye! Bye!")
     end
   end
 end
