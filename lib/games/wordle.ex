@@ -1,7 +1,4 @@
 defmodule Games.Wordle do
-  use GenServer
-  defstruct [:Secret_Word, :Guesses, :Attends]
-
   @moduledoc """
   Documentation for Games.Wordle
 
@@ -15,18 +12,6 @@ defmodule Games.Wordle do
 
   # TODO complete my wordle project
 
-  def start_link(_opts) do
-    GenServer.start_link(__MODULE__, %__MODULE__{
-      Secret_Word: answer_guesses(),
-      Guesses: [],
-      Attends: 6
-    })
-  end
-
-  def guessing_letter(guess_pid, letter) do
-    GenServer.call(guess_pid, {:guesses, letter})
-  end
-
   # @doc """
 
   # Prompts the user to enter a five letter word and starts the game in a recursive loop.
@@ -36,22 +21,88 @@ defmodule Games.Wordle do
   # ```
   # """
 
-  # Client
-  def init(state) do
-    {:ok, state}
+  # def play(guess_word) do
+  # end
+
+  def feedback(guess_word, answer_word) do
+    zip_list = zip_list(guess_word, answer_word) |> Enum.unzip()
+
+    zip_list
+    |> check_green()
+    |> check_yellow()
+    |> check_grey()
   end
 
-  def handle_call({:guesses, letter}, _from, state) do
+  defp check_green({guess_list, answer_list}) do
+  Enum.zip(guess_list, answer_list)
+    |> Enum.map(fn
+      {char, char} -> {:green, nil}
+      pair -> pair
+    end)
+    |> Enum.unzip()
+    |> IO.inspect()
   end
 
-  defp answer_guesses() do
-    ["tests", "heros", "hello", "error"] |> Enum.random()
+  defp check_yellow({guess_list, answer_list}) do
+    Enum.reduce(guess_list, {[], answer_list}, fn guess_char, {result, answer_list} ->
+      answer_index = Enum.find_index(answer_list, fn answer_char -> answer_char == guess_char end)
+
+      if answer_index do
+        {result ++ [:yellow], List.replace_at(answer_list, answer_index, nil)} |> IO.inspect()
+      else
+        {result ++ [guess_char], answer_list} |> IO.inspect()
+      end
+    end)
   end
 
-  defp pair_list(answer_guesses, guess) do
-    list_answer = String.graphemes(answer_guesses)
-    list_guess = String.graphemes(guess)
+  defp check_grey({guess_list, answer_list}) do
+    Enum.zip(guess_list, answer_list)
+    |> Enum.map(fn
+      {:green, _answer_char} -> {:green, nil}
+      {:yellow, _answer_char} -> {:yellow, nil}
+      _ -> {:grey, nil}
+    end)|> Enum.unzip()
+  end
 
-    
+  defp zip_list(guess_word, answer_word) do
+    list_answer_char = String.graphemes(answer_word)
+    list_guess_char = String.graphemes(guess_word)
+    Enum.zip(list_answer_char, list_guess_char)
+  end
+
+  defp answer_guesses do
+    [
+      "Apple",
+      "Tiger",
+      "Grape",
+      "House",
+      "Plant",
+      "River",
+      "Party",
+      "Earth",
+      "Ocean",
+      "Bread",
+      "Happy",
+      "Music",
+      "Child",
+      "Watch",
+      "Beach",
+      "Smile",
+      "Angel",
+      "Dream",
+      "Light",
+      "Water",
+      "Lemon",
+      "Chair",
+      "Sleep",
+      "Pizza",
+      "Dance",
+      "Shoes",
+      "Heart",
+      "Paper",
+      "Money",
+      "Honey"
+    ]
+    |> Enum.random()
   end
 end
