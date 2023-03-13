@@ -3,11 +3,14 @@ defmodule Games.Wordle do
   Documentation for Games.Wordle
 
   Play a wordle game to guess a randomly generated 5-letter word.
-  Display colored feedback to the user based on their guess and the answer.
+
+  The game prompts the user to enter their guesses for the word and provides colored feedback based on whether the guessed letters are correct, incorrect, or in the correct but wrong position.
 
   * green: letter is in the answer and in the correct position
   * yellow: letter is in the answer but in the wrong position
   * grey: letter is not in the answer
+
+  At most 6 attempts can be made to solve the game.
   """
 
   # TODO complete my wordle project
@@ -23,6 +26,7 @@ defmodule Games.Wordle do
 
   def play(answer \\ random_AI(), attempt \\ 0)
   def play(answer, 6), do: IO.puts("Wrong! The answer was #{answer}")
+
   def play(answer, attempt) do
     guess = IO.gets("Please Enter Five Letter Words: ") |> String.trim() |> String.downcase()
     answer = String.downcase(answer)
@@ -30,7 +34,7 @@ defmodule Games.Wordle do
     if guess == answer do
       IO.puts("WOW! You Guess Right")
     else
-       feedback_list = feedback(answer, guess)
+      feedback_list = feedback(answer, guess)
       IO.puts(inspect(feedback_list))
       play(answer, attempt + 1)
     end
@@ -114,7 +118,28 @@ defmodule Games.Wordle do
       "Heart",
       "Paper",
       "Money",
-      "Honey"
+      "Honey",
+      "Bread",
+      "Chair",
+      "Dance",
+      "Dream",
+      "Earth",
+      "Field",
+      "Ghost",
+      "Happy",
+      "Image",
+      "Juice",
+      "Lemon",
+      "Music",
+      "Ocean",
+      "Party",
+      "Queen",
+      "River",
+      "Sleep",
+      "Tiger",
+      "Water",
+      "Youth",
+      "Zebra"
     ]
     |> Enum.random()
   end
