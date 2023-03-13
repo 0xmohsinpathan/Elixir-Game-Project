@@ -24,3 +24,4 @@ games-*.tar
 
 # Also ignore it generates a notes, let's ignore it too.
 /.vscode/
+games
